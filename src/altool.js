@@ -31,7 +31,7 @@ function getQuestions(questions, iteration, disp_opt){
              <tr>
               <td colspan=3>${questions[iteration].line0}</td>
               <td rowspan=3 >
-                <select name="options" id="answer_selector_${iterator}" onchange="getAnswer(${iterator}, '${answer1}', '${answer2}', this.value); changeDisplay('question_no_${nextIterator}')">
+                <select name="options" id="answer_selector_${iterator}" onchange="getAnswer(${iterator}, '${answer1}', '${answer2}', this.value); changeDisplay('question_no_${nextIterator}', this.value)">
                   <option value=""></option>
                   <option value="True">Yes</option>
                   <option value="False">No</option>
@@ -69,16 +69,19 @@ function getAnswer(iterator, answer1, answer2, decision){
     }
 }
 
-function changeDisplay(fieldname){
-    console.log("FieldName")
-    console.log(fieldname)
-    var x = document.getElementById(fieldname);
-    if (x.style.display === "none") {
-        x.style.display = "block";
+function changeDisplay(fieldname, picked_val){
+    if(picked_val === "False"){
+        console.log("FieldName")
+        console.log(fieldname)
+        var x = document.getElementById(fieldname);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        }
+        /*else {
+            x.style.display = "none";
+        }*/
     }
-    /*else {
-        x.style.display = "none";
-    }*/
+
 }
 
 
