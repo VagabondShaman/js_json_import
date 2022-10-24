@@ -6,50 +6,48 @@ fetch("./static/data.json")
         return response.json();
     })
     .then(function(questions){
-
-        for(let i in questions){
-            getQuestions(questions, i)
+        getQuestions(questions, 0, "block")
+        let i = 1;
+        for(i; i <= questions.length; i++){
+            getQuestions(questions, i, "none")
         }
-
-
-
-
 
     });
 
 
-function getQuestions(questions, iteration){
+function getQuestions(questions, iteration, disp_opt){
     let placeholder = document.querySelector("#data-output");
     let out = "";
     var iterator = questions[iteration].id;
     var answer1 = questions[iteration].answer_options.yes
     var answer2 = questions[iteration].answer_options.no
+    var nextIterator = parseInt(iteration) + 2;
     out += `
-         <col span=5>
-         <tr>
-          <td colspan=4>${questions[iteration].maintext}</td>
-          <td>al</td>
-         </tr>
-         <tr>
-          <td colspan=3>${questions[iteration].line0}</td>
-          <td rowspan=3 >
-            <select name="options" id="answer_selector_${iterator}" onchange="getAnswer(${iterator}, '${answer1}', '${answer2}', this.value)">
-              <option value=""></option>
-              <option value="True">Yes</option>
-              <option value="False">No</option>
-            </select>
-          </td>
-          <td rowspan=3 id="answer_field_${iterator}">Pick something</td>
-         </tr>
-         <tr height=19>
-          <td colspan=3>${questions[iteration].line1}</td>
-         </tr>       
-         <tr height=19>
-          <td colspan=3>${questions[iteration].line2}</td>
-         </tr>
+        <tbody class="questions" id="question_no_${iterator}" style="display: ${disp_opt}">
+             <tr>
+              <td colspan=4>${questions[iteration].maintext}</td>
+              <td>al</td>
+             </tr>
+             <tr>
+              <td colspan=3>${questions[iteration].line0}</td>
+              <td rowspan=3 >
+                <select name="options" id="answer_selector_${iterator}" onchange="getAnswer(${iterator}, '${answer1}', '${answer2}', this.value); changeDisplay('question_no_${nextIterator}')">
+                  <option value=""></option>
+                  <option value="True">Yes</option>
+                  <option value="False">No</option>
+                </select>
+              </td>
+              <td rowspan=3 id="answer_field_${iterator}">Pick something</td>
+             </tr>
+             <tr height=19>
+              <td colspan=3>${questions[iteration].line1}</td>
+             </tr>       
+             <tr height=19>
+              <td colspan=3>${questions[iteration].line2}</td>
+             </tr>
+         </tbody>
       `;
     placeholder.innerHTML += out;
-    console.log(window.iteration)
 }
 
 
@@ -69,6 +67,18 @@ function getAnswer(iterator, answer1, answer2, decision){
     else{
         document.getElementById(answer_field_full_name).innerHTML = "Pick something";
     }
+}
+
+function changeDisplay(fieldname){
+    console.log("FieldName")
+    console.log(fieldname)
+    var x = document.getElementById(fieldname);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    }
+    /*else {
+        x.style.display = "none";
+    }*/
 }
 
 
